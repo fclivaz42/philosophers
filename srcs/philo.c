@@ -12,9 +12,14 @@
 
 #include "../philo.h"
 
-static int	philo_loop(t_philo *philo)
-{
+static int	philo_loop(t_philo *philo, char *av)
+{	
+	int	amt;
 
+	amt = ft_atoi(av);
+	if (amt == -5)
+		return(error_number(1));
+	pthread_create(&philo->philos[0], NULL, philo_routine, philo);
 	return (1);
 }
 
@@ -54,7 +59,7 @@ int	main(int ac, char **av)
 		philo.times_eat = -1;
 	if (initiate_times(&philo, ac, av) < 0)
 		return (2);
-	if (philo_loop(&philo) < 0)
+	if (philo_loop(&philo, av[1]) < 0)
 		r_value = 3;
 	//free_stuff(&philo);
 	return (r_value);

@@ -20,7 +20,17 @@ void	free_stuff(t_philo *philo)
 	free(philo->main);
 }
 
-//int	minisleep(int time)
-//{
-//	int	repeat;
-//}
+int	minisleep(int time, t_philo *philo)
+{
+	while (--time != -1 && philo->has_died != 1)
+		usleep(1000);
+}
+
+void	*philo_routine(void *p)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)p;
+
+	return (NULL);
+}

@@ -19,7 +19,7 @@ int	error_incorrect_use(void)
 
 	a = "\033[0;33mNumberOfPhilosophers TimeToDie TimeToEat TimeToSleep";
 	o = "\033[0;32m[NumberOfTimesEachPhilosopherMustEat]";
-	printf("\033[1;31mUsage:\n\033[1;33mphilosophers %s %s \033[0m\n", a, o);
+	printf("\033[1;31mUsage:\n\033[1;33m./philo %s %s \033[0m\n", a, o);
 	return (1);
 }
 
@@ -53,4 +53,5 @@ int	philo_actions(long int time, int number, int mode)
 		printf("%lu : %d is thinking\n", time, number);
 	if (mode == 4)
 		printf("%lu : %d died 💀\n", time, number);
+	return (0);
 }
