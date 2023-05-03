@@ -23,7 +23,21 @@ void	free_stuff(t_philo *philo)
 int	minisleep(int time, t_philo *philo)
 {
 	while (--time != -1 && philo->has_died != 1)
-		usleep(1000);
+		if (usleep(1000) == -1)
+			return (-1);
+	return (0);
+}
+
+int	get_timestamp(t_philo *philo)
+{
+	struct timeval	time;
+	struct timezone	tzone;
+	long long int	ret;
+
+	if (gettimeofday(&time, &tzone) == -1)
+		return (-1);
+	ret = (philo->timestamp - ((time.tv_sec * 1000000) + time.tv_usec));
+	return (ret / 1000);
 }
 
 void	*philo_routine(void *p)

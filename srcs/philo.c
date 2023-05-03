@@ -19,8 +19,19 @@ static int	philo_loop(t_philo *philo, char *av)
 	amt = ft_atoi(av);
 	if (amt == -5)
 		return(error_number(1));
-	pthread_create(&philo->philos[0], NULL, philo_routine, philo);
+//	pthread_create(&philo->philos[0], NULL, philo_routine, philo);
 	return (1);
+}
+
+static int	set_timestamp(t_philo *philo)
+{
+	struct timeval	time;
+	struct timezone	tzone;
+
+	if (gettimeofday(&time, &tzone) == -1)
+		return (-1);
+	philo->timestamp = (time.tv_sec * 1000000) + time.tv_usec;
+	return (0);
 }
 
 static int	initiate_times(t_philo *philo, int ac, char **av)
@@ -44,6 +55,9 @@ static int	initiate_times(t_philo *philo, int ac, char **av)
 			return (error_number(5));
 	}
 	philo->has_died = 0;
+	if (set_timestamp(philo) == -1)
+		return (error_number(6));
+	printf("Timestamp set to %llu!\n", philo->timestamp);
 	return (1);
 }
 

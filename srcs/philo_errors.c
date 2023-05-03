@@ -38,6 +38,8 @@ int	error_number(int mode)
 		printf("Incorrect amount of time to sleep.\n");
 	if (mode == 5)
 		printf("Incorrect amount of necessary times to eat.\n");
+	if (mode == 6)
+		printf("Error getting time of day.\n");
 	return (mode * -1);
 }
 

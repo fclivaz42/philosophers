@@ -32,13 +32,13 @@ typedef struct s_philo
 	pthread_t		main;
 	pthread_t		*philos;
 	pthread_mutex_t	*mutex;
-	struct timeval	time;
 }	t_philo;
 
 // --- PHILOSOPHERS --- //
 
 void	*philo_routine(void *p);
 void	free_stuff(t_philo *philo);
+int		get_timestamp(t_philo *philo);
 int		minisleep(int time, t_philo *philo);
 int		philo_actions(long int time, int number, int mode);
 
