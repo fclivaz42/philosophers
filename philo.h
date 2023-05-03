@@ -25,13 +25,13 @@
 
 typedef struct s_philo
 {
-	int				*times;
-	int				times_eat;
-	int				has_died;
-	long long int	timestamp;
-	pthread_t		main;
-	pthread_t		*philos;
-	pthread_mutex_t	*mutex;
+	int						*times;
+	int						times_eat;
+	int						has_died;
+	unsigned long long int	timestamp;
+	pthread_t				main;
+	pthread_t				*philos;
+	pthread_mutex_t			*mutex;
 }	t_philo;
 
 // --- PHILOSOPHERS --- //

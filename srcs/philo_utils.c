@@ -30,13 +30,13 @@ int	minisleep(int time, t_philo *philo)
 
 int	get_timestamp(t_philo *philo)
 {
-	struct timeval	time;
-	struct timezone	tzone;
-	long long int	ret;
+	struct timeval			time;
+	struct timezone			tzone;
+	unsigned long long int	ret;
 
 	if (gettimeofday(&time, &tzone) == -1)
 		return (-1);
-	ret = (philo->timestamp - ((time.tv_sec * 1000000) + time.tv_usec));
+	ret = (((time.tv_sec * 1000000) + time.tv_usec)- philo->timestamp);
 	return (ret / 1000);
 }
 

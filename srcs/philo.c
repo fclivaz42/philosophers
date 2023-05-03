@@ -20,6 +20,8 @@ static int	philo_loop(t_philo *philo, char *av)
 	if (amt == -5)
 		return (error_number(1));
 //	pthread_create(&philo->philos[0], NULL, philo_routine, philo);
+	minisleep(philo->times[0], philo);
+	philo_actions(get_timestamp(philo), 5, 1);
 	return (1);
 }
 
