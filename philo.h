@@ -23,23 +23,32 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef struct s_philo
+typedef struct s_philos
 {
-	int						*times;
+	int			id;
+	pthread_t	thread;
+	long int	last_eaten;
+	int			i_am_losing_my_mind;
+}	t_philos;
+
+typedef struct s_pdata
+{
+	int						time_die;
+	int						time_eat;
+	int						time_sleep;
 	int						times_eat;
 	int						has_died;
 	unsigned long long int	timestamp;
 	pthread_t				main;
-	pthread_t				*philos;
-	pthread_mutex_t			*mutex;
-}	t_philo;
+	t_philos				*philo;
+}	t_pdata;
 
 // --- PHILOSOPHERS --- //
 
 void	*philo_routine(void *p);
-void	free_stuff(t_philo *philo);
-int		get_timestamp(t_philo *philo);
-int		minisleep(int time, t_philo *philo);
+void	free_stuff(t_pdata *pdata);
+int		get_timestamp(t_pdata *pdata);
+int		minisleep(int time, t_pdata *pdata);
 int		philo_actions(long int time, int number, int mode);
 
 // --- WALMART LIBFT --- //

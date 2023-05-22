@@ -3,10 +3,10 @@ SUBDIR	= srcs
 OBJDIR	= objs
 
 SRCS	=	${SUBDIR}/philo.c\
-			${SUBDIR}/philo_errors.c\
 			${SUBDIR}/philo_lft.c\
 			${SUBDIR}/philo_utils.c\
-
+			${SUBDIR}/philo_moment.c\
+			${SUBDIR}/philo_errors.c\
 
 OBJ		= $(patsubst ${SUBDIR}/%.c, ${OBJDIR}/%.o, ${SRCS})
 
