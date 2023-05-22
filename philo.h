@@ -25,10 +25,13 @@
 
 typedef struct s_philos
 {
-	int			id;
-	pthread_t	thread;
-	long int	last_eaten;
-	int			i_am_losing_my_mind;
+	int				id;
+	long int		last_eaten;
+	int				i_am_losing_my_mind;
+	int				times_eaten;
+	pthread_t		thread;
+	pthread_mutex_t fork_l;
+	pthread_mutex_t *fork_r;
 }	t_philos;
 
 typedef struct s_pdata
