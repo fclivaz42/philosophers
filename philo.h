@@ -41,7 +41,7 @@ typedef struct s_pdata
 	int						time_sleep;
 	int						times_eat;
 	int						has_died;
-	unsigned long long int	timestamp;
+	unsigned long long int	init;
 	pthread_t				main;
 	t_philos				*philo;
 }	t_pdata;

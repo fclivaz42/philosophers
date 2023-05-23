@@ -23,26 +23,35 @@ void	free_stuff(t_pdata *pdata)
 
 int	minisleep(int time, t_pdata *pdata)
 {
+	int	timestamp;
+
 	while (--time != -1 && pdata->has_died != 1)
+	{
+		timestamp = get_timestamp(pdata);
+		if (pdata->philo->last_eaten - timestamp <= 0)
+		{
+			philo_actions(timestamp, pdata->philo->id, 4);
+			pdata->has_died = 1;
+			return (1);
+		}
 		if (usleep(1000) == -1)
 			return (-1);
+	}
 	return (0);
 }
 
 int	get_timestamp(t_pdata *pdata)
 {
 	struct timeval			time;
-	unsigned long long int	ret;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	ret = (((time.tv_sec * 1000000) + time.tv_usec)- pdata->timestamp);
-	return (ret / 1000);
+	return ((((time.tv_sec * 1000000) + time.tv_usec) - pdata->init) / 1000);
 }
 
 void	*philo_routine(void *p)
 {
-	t_pdata *pdata;
+	t_pdata	*pdata;
 
 	pdata = (t_pdata *)p;
 

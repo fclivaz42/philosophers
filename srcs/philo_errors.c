@@ -55,5 +55,7 @@ int	philo_actions(long int time, int number, int mode)
 		printf("%lu : %d is thinking\n", time, number);
 	if (mode == 4)
 		printf("%lu : %d died 💀\n", time, number);
+	if (mode == 100)
+		printf("Simulation ended and no one died!! 😁😁\n");
 	return (0);
 }

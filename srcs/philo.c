@@ -18,7 +18,7 @@ static int	set_timestamp(t_pdata *pdata)
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	pdata->timestamp = (time.tv_sec * 1000000) + time.tv_usec;
+	pdata->init = (time.tv_sec * 1000000) + time.tv_usec;
 	return (0);
 }
 
@@ -32,7 +32,7 @@ static int	philo_loop(t_pdata *pdata, char *av)
 	if (set_timestamp(pdata) == -1)
 		return (error_number(6));
 	if (DEBUG)
-		printf("Timestamp set to %llu!\n", pdata->timestamp);
+		printf("Timestamp set to %llu!\n", pdata->init);
 //	pthread_create(&pdata->philos[0], NULL, philo_routine, philo);
 	minisleep(pdata->time_die, pdata);
 	philo_actions(get_timestamp(pdata), 5, 1);
