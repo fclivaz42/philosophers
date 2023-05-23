@@ -50,7 +50,7 @@ typedef struct s_pdata
 
 void	*philo_routine(void *p);
 void	free_stuff(t_pdata *pdata);
-int		get_timestamp(t_pdata *pdata);
+int		get_timestamp(t_pdata *pdata, int mode);
 int		minisleep(int time, t_pdata *pdata);
 int		philo_actions(long int time, int number, int mode);
 

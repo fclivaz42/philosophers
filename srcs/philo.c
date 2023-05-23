@@ -12,30 +12,20 @@
 
 #include "../philo.h"
 
-static int	set_timestamp(t_pdata *pdata)
-{
-	struct timeval	time;
-
-	if (gettimeofday(&time, NULL) == -1)
-		return (-1);
-	pdata->init = (time.tv_sec * 1000000) + time.tv_usec;
-	return (0);
-}
-
-static int	philo_loop(t_pdata *pdata, char *av)
+static int	philo_start(t_pdata *pdata, char *av)
 {	
 	int	amt;
 
 	amt = ft_atoi(av);
 	if (amt == -5)
 		return (error_number(1));
-	if (set_timestamp(pdata) == -1)
+	if (get_timestamp(pdata, 1) == -1)
 		return (error_number(6));
 	if (DEBUG)
 		printf("Timestamp set to %llu!\n", pdata->init);
 //	pthread_create(&pdata->philos[0], NULL, philo_routine, philo);
 	minisleep(pdata->time_die, pdata);
-	philo_actions(get_timestamp(pdata), 5, 1);
+	philo_actions(get_timestamp(pdata, 0), 5, 1);
 	return (1);
 }
 
@@ -72,7 +62,7 @@ int	main(int ac, char **av)
 		pdata.times_eat = -1;
 	if (initiate_times(&pdata, ac, av) < 0)
 		return (2);
-	if (philo_loop(&pdata, av[1]) < 0)
+	if (philo_start(&pdata, av[1]) < 0)
 		r_value = 3;
 	//free_stuff(&philo);
 	return (r_value);

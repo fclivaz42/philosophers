@@ -27,7 +27,7 @@ int	minisleep(int time, t_pdata *pdata)
 
 	while (--time != -1 && pdata->has_died != 1)
 	{
-		timestamp = get_timestamp(pdata);
+		timestamp = get_timestamp(pdata, 0);
 		if (pdata->philo->last_eaten - timestamp <= 0)
 		{
 			philo_actions(timestamp, pdata->philo->id, 4);
@@ -40,13 +40,16 @@ int	minisleep(int time, t_pdata *pdata)
 	return (0);
 }
 
-int	get_timestamp(t_pdata *pdata)
+int	get_timestamp(t_pdata *pdata, int mode)
 {
-	struct timeval			time;
+	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	return ((((time.tv_sec * 1000000) + time.tv_usec) - pdata->init) / 1000);
+	if (mode == 0)
+		return ((((time.tv_sec * 1000000) + time.tv_usec) - pdata->init) / 1000);
+	pdata->init = (time.tv_sec * 1000000) + time.tv_usec;
+	return (0);
 }
 
 void	*philo_routine(void *p)
