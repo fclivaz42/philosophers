@@ -26,6 +26,7 @@ int	philo_start(t_pdata *pdata, int amount)
 
 	i = -1;
 	pdata->philo = ft_calloc(amount, sizeof(t_philos));
+	pthread_mutex_init(&(pdata->print), NULL);
 	if (pdata->philo == NULL)
 		return(error_number(0));
 	while (++i < amount)

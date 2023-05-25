@@ -51,7 +51,7 @@ typedef struct s_pdata
 void	*philo_routine(void *p);
 int		get_timestamp(t_pdata *pdata, int mode);
 int		minisleep(int time, t_pdata *pdata);
-int		philo_actions(int time, int number, int mode);
+int		philo_actions(t_pdata *pdata, int time, int number, int mode);
 int		philo_start(t_pdata *pdata, int amount);
 
 // --- WALMART LIBFT --- //

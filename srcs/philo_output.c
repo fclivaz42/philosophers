@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_errors.c                                     :+:      :+:    :+:   */
+/*   philo_output.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fclivaz <fclivaz@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -43,8 +43,9 @@ int	error_number(int mode)
 	return (mode * -1);
 }
 
-int	philo_actions(int time, int number, int mode)
+int	philo_actions(t_pdata *pdata, int time, int number, int mode)
 {
+	pthread_mutex_lock(&pdata->print);
 	if (mode == 0)
 		printf("%d\t : %d has taken a fork\n", time, number);
 	if (mode == 1)
@@ -57,5 +58,6 @@ int	philo_actions(int time, int number, int mode)
 		printf("%d\t : %d died 💀\n", time, number);
 	if (mode == 100)
 		printf("Simulation ended and no one died!! 😁😁\n");
+	pthread_mutex_unlock(&pdata->print);
 	return (0);
 }

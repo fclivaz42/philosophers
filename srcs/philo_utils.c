@@ -21,7 +21,7 @@ int	minisleep(int time, t_pdata *pdata)
 		timestamp = get_timestamp(pdata, 0);
 		if (pdata->philo->last_eaten - timestamp <= 0)
 		{
-			philo_actions(timestamp, pdata->philo->id, 4);
+			philo_actions(pdata, timestamp, pdata->philo->id, 4);
 			pdata->has_died = 1;
 			return (1);
 		}

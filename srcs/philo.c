@@ -12,6 +12,20 @@
 
 #include "../philo.h"
 
+static void freexit(t_pdata *pdata, int amt)
+{
+	int	i;
+
+	i = -1;
+	while (++i < amt)
+	{
+		pthread_mutex_destroy(pdata->philo[i].fork_l);
+		pthread_mutex_destroy(&pdata->philo[i].fork_r);
+	}
+	pthread_mutex_destroy(&pdata->print);
+	free(pdata->philo);
+}
+
 static int	philo_init(t_pdata *pdata, char *av)
 {	
 	int	amt;
@@ -24,6 +38,7 @@ static int	philo_init(t_pdata *pdata, char *av)
 	if (DEBUG)
 		printf("Timestamp set to %ld!\n", pdata->init);
 	philo_start(pdata, amt);
+	freexit(pdata, amt);
 	return (1);
 }
 
@@ -62,6 +77,5 @@ int	main(int ac, char **av)
 		return (2);
 	if (philo_init(&pdata, av[1]) < 0)
 		r_value = 3;
-	free(pdata.philo);
 	return (r_value);
 }
