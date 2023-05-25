@@ -27,32 +27,32 @@ typedef struct s_philos
 {
 	int				id;
 	long int		last_eaten;
-	int				i_am_losing_my_mind;
 	int				times_eaten;
 	pthread_t		thread;
-	pthread_mutex_t fork_l;
-	pthread_mutex_t *fork_r;
+	pthread_mutex_t	*fork_l;
+	pthread_mutex_t	fork_r;
 }	t_philos;
 
 typedef struct s_pdata
 {
-	int						time_die;
-	int						time_eat;
-	int						time_sleep;
-	int						times_eat;
-	int						has_died;
-	unsigned long long int	init;
-	pthread_t				main;
-	t_philos				*philo;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				times_eat;
+	int				has_died;
+	long int		init;
+	pthread_t		main;
+	pthread_mutex_t	print;
+	t_philos		*philo;
 }	t_pdata;
 
 // --- PHILOSOPHERS --- //
 
 void	*philo_routine(void *p);
-void	free_stuff(t_pdata *pdata);
 int		get_timestamp(t_pdata *pdata, int mode);
 int		minisleep(int time, t_pdata *pdata);
-int		philo_actions(long int time, int number, int mode);
+int		philo_actions(int time, int number, int mode);
+int		philo_start(t_pdata *pdata, int amount);
 
 // --- WALMART LIBFT --- //
 

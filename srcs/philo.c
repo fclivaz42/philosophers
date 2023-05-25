@@ -12,7 +12,7 @@
 
 #include "../philo.h"
 
-static int	philo_start(t_pdata *pdata, char *av)
+static int	philo_init(t_pdata *pdata, char *av)
 {	
 	int	amt;
 
@@ -22,10 +22,8 @@ static int	philo_start(t_pdata *pdata, char *av)
 	if (get_timestamp(pdata, 1) == -1)
 		return (error_number(6));
 	if (DEBUG)
-		printf("Timestamp set to %llu!\n", pdata->init);
-//	pthread_create(&pdata->philos[0], NULL, philo_routine, philo);
-	minisleep(pdata->time_die, pdata);
-	philo_actions(get_timestamp(pdata, 0), 5, 1);
+		printf("Timestamp set to %ld!\n", pdata->init);
+	philo_start(pdata, amt);
 	return (1);
 }
 
@@ -62,8 +60,8 @@ int	main(int ac, char **av)
 		pdata.times_eat = -1;
 	if (initiate_times(&pdata, ac, av) < 0)
 		return (2);
-	if (philo_start(&pdata, av[1]) < 0)
+	if (philo_init(&pdata, av[1]) < 0)
 		r_value = 3;
-	//free_stuff(&philo);
+	free(pdata.philo);
 	return (r_value);
 }

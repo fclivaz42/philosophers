@@ -80,7 +80,7 @@ int	ft_atoi(const char *nptr)
 			return (-5);
 	x = ft_base_atoi(nptr);
 	y = ft_base_atoi(nptr);
-	if (x != y)
+	if (x != y || x == 0)
 		return (-5);
 	return (x);
 }

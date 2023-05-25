@@ -12,15 +12,6 @@
 
 #include "../philo.h"
 
-void	free_stuff(t_pdata *pdata)
-{
-	int	i;
-
-	i = -1;
-	while (&pdata->philo[++i] != NULL)
-		free(&pdata->philo[i]);
-}
-
 int	minisleep(int time, t_pdata *pdata)
 {
 	int	timestamp;
@@ -47,16 +38,8 @@ int	get_timestamp(t_pdata *pdata, int mode)
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
 	if (mode == 0)
-		return ((((time.tv_sec * 1000000) + time.tv_usec) - pdata->init) / 1000);
+		return ((((time.tv_sec * 1000000) + time.tv_usec) \
+			- pdata->init) / 1000);
 	pdata->init = (time.tv_sec * 1000000) + time.tv_usec;
 	return (0);
-}
-
-void	*philo_routine(void *p)
-{
-	t_pdata	*pdata;
-
-	pdata = (t_pdata *)p;
-
-	return (NULL);
 }

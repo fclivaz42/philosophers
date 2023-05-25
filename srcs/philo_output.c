@@ -27,7 +27,7 @@ int	error_number(int mode)
 {
 	printf("\033[1;31mError\033[0m: ");
 	if (mode == 0)
-		printf("Failed to allocate memory.\n");
+		mode = printf("Failed to allocate memory.\n");
 	if (mode == 1)
 		printf("Incorrect amount of philosophers.\n");
 	if (mode == 2)
@@ -43,18 +43,18 @@ int	error_number(int mode)
 	return (mode * -1);
 }
 
-int	philo_actions(long int time, int number, int mode)
+int	philo_actions(int time, int number, int mode)
 {
 	if (mode == 0)
-		printf("%lu : %d has taken a fork\n", time, number);
+		printf("%d\t : %d has taken a fork\n", time, number);
 	if (mode == 1)
-		printf("%lu : %d is eating\n", time, number);
+		printf("%d\t : %d is eating\n", time, number);
 	if (mode == 2)
-		printf("%lu : %d is sleeping\n", time, number);
+		printf("%d\t : %d is sleeping\n", time, number);
 	if (mode == 3)
-		printf("%lu : %d is thinking\n", time, number);
+		printf("%d\t : %d is thinking\n", time, number);
 	if (mode == 4)
-		printf("%lu : %d died 💀\n", time, number);
+		printf("%d\t : %d died 💀\n", time, number);
 	if (mode == 100)
 		printf("Simulation ended and no one died!! 😁😁\n");
 	return (0);
