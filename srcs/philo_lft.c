@@ -12,16 +12,6 @@
 
 #include "../philo.h"
 
-size_t	ft_strlen(const char *s)
-{
-	int		x;
-
-	x = 0;
-	while (s[x] != 0)
-		++x;
-	return (x);
-}
-
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*str;

@@ -14,10 +14,12 @@ NAME	= philo
 
 CFLAGS	= -Wall -Werror -Wextra -O2
 
+LFLAGS = -lpthread
+
 CC = gcc
 
 ${NAME}:	${OBJ}
-			${CC} ${OBJ} -o ${NAME}
+			${CC} ${OBJ} -o ${NAME} ${LFLAGS}
 
 ${OBJDIR}/%.o:	${SUBDIR}/%.c | ${OBJDIR}
 				${CC} ${CFLAGS} -c $< -o $@
@@ -29,6 +31,9 @@ all:	${NAME}
 
 debug:
 		${CC} -D DEBUG=1 ${SRCS} -o ${NAME} -g3 -fsanitize=address
+
+extra:
+		${CC} -D EXTRAL=5 -D EXTRAR=6 ${SRCS} -o ${NAME} ${LFLAGS} 
 
 clean:
 		rm -rf ${OBJDIR}

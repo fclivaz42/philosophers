@@ -24,7 +24,7 @@ int	smartsleep(int time, t_philos *philos)
 		timestamp = get_timestamp(philos->pdata, 0);
 		if (timestamp - philos->last_eaten > philos->pdata->time_die)
 		{
-			philo_actions(philos, timestamp, philos->id, 4);
+			philo_actions(philos, philos->id, 4);
 			philos->pdata->has_died = 1;
 			return (1);
 		}

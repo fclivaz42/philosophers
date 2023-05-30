@@ -54,11 +54,14 @@ int	error_number(int mode)
 	return (mode * -1);
 }
 
-int	philo_actions(t_philos *philos, int time, int number, int mode)
+int	philo_actions(t_philos *philos, int number, int mode)
 {
+	int	time;
+
 	if (philos->pdata->has_died == 0)
 	{
 		pthread_mutex_lock(&philos->pdata->print);
+		time = get_timestamp(philos->pdata, 0);
 		if (mode == 0)
 			printf("%d\t : %d has taken a fork\n", time, number);
 		if (mode == 1)
@@ -69,6 +72,10 @@ int	philo_actions(t_philos *philos, int time, int number, int mode)
 			printf("%d\t : %d is thinking\n", time, number);
 		if (mode == 4)
 			printf("%d\t : %d died 💀\n", time, number);
+		if (mode == 5)
+			printf("%d\t : %d has taken their left fork.\n", time, number);
+		if (mode == 6)
+			printf("%d\t : %d has taken their right fork.\n", time, number);
 		pthread_mutex_unlock(&philos->pdata->print);
 	}
 	return (0);

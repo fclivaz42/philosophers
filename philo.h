@@ -54,14 +54,13 @@ void	*philo_routine(void *p);
 void	pthread_init(t_pdata *pdata, int amount);
 int		get_timestamp(t_pdata *pdata, int mode);
 int		smartsleep(int time, t_philos *philos);
-int		philo_actions(t_philos *philos, int time, int number, int mode);
+int		philo_actions(t_philos *philos, int number, int mode);
 int		philo_start(t_pdata *pdata, int amount);
 
 // --- WALMART LIBFT --- //
 
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t count, size_t size);
-size_t	ft_strlen(const char *s);
 
 // --- BUNGIE SPECIFIC --- //
 
@@ -71,6 +70,14 @@ int		error_number(int mode);
 
 # ifndef DEBUG
 #  define DEBUG 0
+# endif
+
+# ifndef EXTRAL
+#  define EXTRAL 0
+# endif
+
+# ifndef EXTRAR
+#  define EXTRAR 0
 # endif
 
 #endif

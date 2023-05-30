@@ -21,13 +21,13 @@ static void	take_forks(t_philos *philos, int mode)
 				return ;
 		pthread_mutex_lock(philos->fork_l);
 		*philos->state_l = 1;
-		philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 0);
+		philo_actions(philos, philos->id, EXTRAL);
 		while (philos->state_r == 1)
 			if (smartsleep(1, philos))
 				return ;
 		pthread_mutex_lock(&(philos->fork_r));
 		philos->state_r = 1;
-		philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 0);
+		philo_actions(philos, philos->id, EXTRAR);
 	}
 	if (mode)
 	{
@@ -41,7 +41,7 @@ static void	take_forks(t_philos *philos, int mode)
 static void	philo_eat(t_philos *philos)
 {
 	take_forks(philos, 0);
-	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 1);
+	philo_actions(philos, philos->id, 1);
 	philos->last_eaten = get_timestamp(philos->pdata, 0);
 	smartsleep(philos->pdata->time_eat, philos);
 	take_forks(philos, 1);
@@ -49,11 +49,11 @@ static void	philo_eat(t_philos *philos)
 
 static void	philo_sleep(t_philos *philos)
 {
-	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 2);
+	philo_actions(philos, philos->id, 2);
 	smartsleep(philos->pdata->time_sleep, philos);
 	if (philos->pdata->has_died == 1)
 		return ;
-	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 3);
+	philo_actions(philos, philos->id, 3);
 }	
 
 void	*philo_routine(void *p)
