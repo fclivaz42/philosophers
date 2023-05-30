@@ -26,11 +26,12 @@
 typedef struct s_philos
 {
 	int				id;
-	long int		last_eaten;
+	int				last_eaten;
 	int				times_eaten;
 	pthread_t		thread;
 	pthread_mutex_t	*fork_l;
 	pthread_mutex_t	fork_r;
+	struct s_pdata	*pdata;
 }	t_philos;
 
 typedef struct s_pdata
@@ -49,10 +50,12 @@ typedef struct s_pdata
 // --- PHILOSOPHERS --- //
 
 void	*philo_routine(void *p);
+void	pthread_init(t_pdata *pdata, int amount);
 int		get_timestamp(t_pdata *pdata, int mode);
-int		minisleep(int time, t_pdata *pdata);
-int		philo_actions(t_pdata *pdata, int time, int number, int mode);
+int		minisleep(int time, t_philos *philos);
+int		philo_actions(t_philos *philos, int time, int number, int mode);
 int		philo_start(t_pdata *pdata, int amount);
+
 
 // --- WALMART LIBFT --- //
 
@@ -62,6 +65,7 @@ size_t	ft_strlen(const char *s);
 
 // --- BUNGIE SPECIFIC --- //
 
+void	print_forks(t_pdata *pdata, int amount);
 int		error_incorrect_use(void);
 int		error_number(int mode);
 

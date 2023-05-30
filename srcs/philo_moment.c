@@ -12,11 +12,29 @@
 
 #include "../philo.h"
 
+static void	philo_eat(t_philos *philos)
+{
+	(void)philos;
+	printf("philosopher %d eating\n", philos->id);
+}
+
+static void	philo_sleep(t_philos *philos)
+{
+	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 2);
+	minisleep(philos->pdata->time_sleep, philos);
+	if (philos->pdata->has_died == 1)
+		return ;
+	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 3);
+}	
+
 void	*philo_routine(void *p)
 {
-	t_pdata	*pdata;
+	t_philos	*philos;
 
-	pdata = (t_pdata *)p;
+	philos = (t_philos *)p;
+	if (philos->id % 2 == 0)
+		philo_sleep(philos);
+	philo_eat(philos);
 	return (NULL);
 }
 
@@ -28,23 +46,16 @@ int	philo_start(t_pdata *pdata, int amount)
 	pdata->philo = ft_calloc(amount, sizeof(t_philos));
 	pthread_mutex_init(&(pdata->print), NULL);
 	if (pdata->philo == NULL)
-		return(error_number(0));
-	while (++i < amount)
-	{
-		pdata->philo[i].id = i + 1;
-		pthread_mutex_init(&(pdata->philo[i].fork_r), NULL);
-		if (i > 0)
-			pdata->philo[i].fork_l = &pdata->philo[i - 1].fork_r;
-		if (i == amount - 1)
-			pdata->philo[0].fork_l = &pdata->philo[i].fork_r;
-	}
+		return (error_number(0));
+	pthread_init(pdata, amount);
 	if (DEBUG)
-	{
-		i = -1;
-		while (++i < amount)
-		printf("Initialized Philo #%d.\t Fork L is %p, Fork R is %p.\n",
-				pdata->philo[i].id, pdata->philo[i].fork_l,
-				&pdata->philo[i].fork_r);
-	}
-	return (10);
+		print_forks(pdata, amount);
+	i = -1;
+	while (++i < amount)
+		pthread_create(&pdata->philo[i].thread, NULL, \
+			&philo_routine, &pdata->philo[i]);
+	i = -1;
+	while (++i < amount)
+		pthread_join(pdata->philo[i].thread, NULL);
+	return (0);
 }

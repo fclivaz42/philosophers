@@ -12,6 +12,17 @@
 
 #include "../philo.h"
 
+void	print_forks(t_pdata *pdata, int amount)
+{
+	int	i;
+
+	i = -1;
+	while (++i < amount)
+		printf("Initialized Philo #%d.\t Fork L is %p, Fork R is %p.\n",
+			pdata->philo[i].id, pdata->philo[i].fork_l,
+			&pdata->philo[i].fork_r);
+}
+
 int	error_incorrect_use(void)
 {
 	char	*a;
@@ -43,9 +54,9 @@ int	error_number(int mode)
 	return (mode * -1);
 }
 
-int	philo_actions(t_pdata *pdata, int time, int number, int mode)
+int	philo_actions(t_philos *philos, int time, int number, int mode)
 {
-	pthread_mutex_lock(&pdata->print);
+	pthread_mutex_lock(&philos->pdata->print);
 	if (mode == 0)
 		printf("%d\t : %d has taken a fork\n", time, number);
 	if (mode == 1)
@@ -56,8 +67,6 @@ int	philo_actions(t_pdata *pdata, int time, int number, int mode)
 		printf("%d\t : %d is thinking\n", time, number);
 	if (mode == 4)
 		printf("%d\t : %d died 💀\n", time, number);
-	if (mode == 100)
-		printf("Simulation ended and no one died!! 😁😁\n");
-	pthread_mutex_unlock(&pdata->print);
+	pthread_mutex_unlock(&philos->pdata->print);
 	return (0);
 }

@@ -38,11 +38,11 @@ void	*ft_calloc(size_t count, size_t size)
 	return ((void *)str);
 }
 
-static long long int	ft_base_atoi(const char *nptr)
+static long int	ft_base_atoi(const char *nptr)
 {
-	long long int	x;
-	long long int	neg;
-	long long int	nbr;
+	long int	x;
+	long int	neg;
+	long int	nbr;
 
 	neg = 1;
 	nbr = 0;
@@ -71,8 +71,8 @@ static int	ft_isdigit(int c)
 
 int	ft_atoi(const char *nptr)
 {
-	int				x;
-	long long int	y;
+	int			x;
+	long int	y;
 
 	x = -1;
 	while (nptr[++x] != 0)

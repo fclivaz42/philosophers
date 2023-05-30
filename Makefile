@@ -28,7 +28,7 @@ ${OBJDIR}:
 all:	${NAME}
 
 debug:
-		${CC} -D DEBUG=1 ${SRCS} -o ${NAME} -fsanitize=address
+		${CC} -D DEBUG=1 ${SRCS} -o ${NAME} -g3 -fsanitize=address
 
 clean:
 		rm -rf ${OBJDIR}

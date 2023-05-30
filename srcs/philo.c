@@ -12,7 +12,7 @@
 
 #include "../philo.h"
 
-static void freexit(t_pdata *pdata, int amt)
+static void	freexit(t_pdata *pdata, int amt)
 {
 	int	i;
 
@@ -77,5 +77,7 @@ int	main(int ac, char **av)
 		return (2);
 	if (philo_init(&pdata, av[1]) < 0)
 		r_value = 3;
+	if (pdata.has_died == 0)
+		printf("Simulation ended and no one died!! 😁😁\n");
 	return (r_value);
 }
