@@ -12,16 +12,45 @@
 
 #include "../philo.h"
 
+static void	take_forks(t_philos *philos, int mode)
+{
+	if (!mode)
+	{
+		while (*philos->state_l == 1)
+			if (smartsleep(1, philos))
+				return ;
+		pthread_mutex_lock(philos->fork_l);
+		*philos->state_l = 1;
+		philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 0);
+		while (philos->state_r == 1)
+			if (smartsleep(1, philos))
+				return ;
+		pthread_mutex_lock(&(philos->fork_r));
+		philos->state_r = 1;
+		philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 0);
+	}
+	if (mode)
+	{
+		pthread_mutex_unlock(philos->fork_l);
+		*philos->state_l = 0;
+		pthread_mutex_unlock(&(philos->fork_r));
+		philos->state_r = 0;
+	}
+}
+
 static void	philo_eat(t_philos *philos)
 {
-	(void)philos;
-	printf("philosopher %d eating\n", philos->id);
+	take_forks(philos, 0);
+	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 1);
+	philos->last_eaten = get_timestamp(philos->pdata, 0);
+	smartsleep(philos->pdata->time_eat, philos);
+	take_forks(philos, 1);
 }
 
 static void	philo_sleep(t_philos *philos)
 {
 	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 2);
-	minisleep(philos->pdata->time_sleep, philos);
+	smartsleep(philos->pdata->time_sleep, philos);
 	if (philos->pdata->has_died == 1)
 		return ;
 	philo_actions(philos, get_timestamp(philos->pdata, 0), philos->id, 3);
@@ -30,11 +59,17 @@ static void	philo_sleep(t_philos *philos)
 void	*philo_routine(void *p)
 {
 	t_philos	*philos;
+	int			eaten;
 
+	eaten = -1;
 	philos = (t_philos *)p;
 	if (philos->id % 2 == 0)
 		philo_sleep(philos);
-	philo_eat(philos);
+	while (++eaten != philos->pdata->times_eat && philos->pdata->has_died != 1)
+	{
+		philo_eat(philos);
+		philo_sleep(philos);
+	}
 	return (NULL);
 }
 

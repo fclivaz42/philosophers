@@ -56,17 +56,20 @@ int	error_number(int mode)
 
 int	philo_actions(t_philos *philos, int time, int number, int mode)
 {
-	pthread_mutex_lock(&philos->pdata->print);
-	if (mode == 0)
-		printf("%d\t : %d has taken a fork\n", time, number);
-	if (mode == 1)
-		printf("%d\t : %d is eating\n", time, number);
-	if (mode == 2)
-		printf("%d\t : %d is sleeping\n", time, number);
-	if (mode == 3)
-		printf("%d\t : %d is thinking\n", time, number);
-	if (mode == 4)
-		printf("%d\t : %d died 💀\n", time, number);
-	pthread_mutex_unlock(&philos->pdata->print);
+	if (philos->pdata->has_died == 0)
+	{
+		pthread_mutex_lock(&philos->pdata->print);
+		if (mode == 0)
+			printf("%d\t : %d has taken a fork\n", time, number);
+		if (mode == 1)
+			printf("%d\t : %d is eating\n", time, number);
+		if (mode == 2)
+			printf("%d\t : %d is sleeping\n", time, number);
+		if (mode == 3)
+			printf("%d\t : %d is thinking\n", time, number);
+		if (mode == 4)
+			printf("%d\t : %d died 💀\n", time, number);
+		pthread_mutex_unlock(&philos->pdata->print);
+	}
 	return (0);
 }

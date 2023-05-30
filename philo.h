@@ -28,6 +28,8 @@ typedef struct s_philos
 	int				id;
 	int				last_eaten;
 	int				times_eaten;
+	int				*state_l;
+	int				state_r;
 	pthread_t		thread;
 	pthread_mutex_t	*fork_l;
 	pthread_mutex_t	fork_r;
@@ -42,7 +44,6 @@ typedef struct s_pdata
 	int				times_eat;
 	int				has_died;
 	long int		init;
-	pthread_t		main;
 	pthread_mutex_t	print;
 	t_philos		*philo;
 }	t_pdata;
@@ -52,10 +53,9 @@ typedef struct s_pdata
 void	*philo_routine(void *p);
 void	pthread_init(t_pdata *pdata, int amount);
 int		get_timestamp(t_pdata *pdata, int mode);
-int		minisleep(int time, t_philos *philos);
+int		smartsleep(int time, t_philos *philos);
 int		philo_actions(t_philos *philos, int time, int number, int mode);
 int		philo_start(t_pdata *pdata, int amount);
-
 
 // --- WALMART LIBFT --- //
 

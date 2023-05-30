@@ -12,17 +12,17 @@
 
 #include "../philo.h"
 
-int	minisleep(int time, t_philos *philos)
+int	smartsleep(int time, t_philos *philos)
 {
 	int	timestamp;
+	int	delta;
 
-	time = time * 2;
-	while (--time != -1 && philos->pdata->has_died != 1)
+	delta = get_timestamp(philos->pdata, 0);
+	timestamp = delta;
+	while (timestamp - delta < time && philos->pdata->has_died != 1)
 	{
 		timestamp = get_timestamp(philos->pdata, 0);
-		printf("timestamp is %d in thread %d\n", timestamp, philos->id);
-		printf("you know %d\n", philos->last_eaten - timestamp);
-		if (philos->last_eaten - timestamp < 0)
+		if (timestamp - philos->last_eaten > philos->pdata->time_die)
 		{
 			philo_actions(philos, timestamp, philos->id, 4);
 			philos->pdata->has_died = 1;
@@ -43,13 +43,18 @@ void	pthread_init(t_pdata *pdata, int amount)
 	{
 		pdata->philo[i].id = i + 1;
 		pdata->philo[i].pdata = pdata;
-		pdata->philo[i].last_eaten = pdata->time_die;
-		printf("last eaten time set to %d\n", pdata->philo[i].last_eaten);
 		pthread_mutex_init(&(pdata->philo[i].fork_r), NULL);
+		pdata->philo->state_r = 0;
 		if (i > 0)
+		{
 			pdata->philo[i].fork_l = &pdata->philo[i - 1].fork_r;
+			pdata->philo[i].state_l = &pdata->philo[i - 1].state_r;
+		}
 		if (i == amount - 1)
+		{
 			pdata->philo[0].fork_l = &pdata->philo[i].fork_r;
+			pdata->philo[0].state_l = &pdata->philo[i].state_r;
+		}
 	}
 }
 
