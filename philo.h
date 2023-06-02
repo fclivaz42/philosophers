@@ -54,6 +54,7 @@ typedef struct s_pdata
 // --- PHILOSOPHERS --- //
 
 void	*philo_routine(void *p);
+void	lock_unlock_madness(t_philos *philos);
 void	pthread_init(t_pdata *pdata, int amount);
 int		philo_actions(t_philos *philos, int number, int mode);
 int		get_timestamp(t_pdata *pdata, int mode);

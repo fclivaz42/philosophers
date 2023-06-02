@@ -12,6 +12,26 @@
 
 #include "../philo.h"
 
+void	lock_unlock_madness(t_philos *philos)
+{
+	while (trylock(philos, 'R'))
+		if (smartsleep(1, philos))
+			return ;
+	pthread_mutex_lock(&(philos->fork_r));
+	pthread_mutex_lock(&philos->check_state_r);
+	philos->state_r = 1;
+	pthread_mutex_unlock(&philos->check_state_r);
+	philo_actions(philos, philos->id, EXTRAR);
+	while (trylock(philos, 'L'))
+		if (smartsleep(1, philos))
+			return ;
+	pthread_mutex_lock(philos->fork_l);
+	pthread_mutex_lock(philos->check_state_l);
+	*philos->state_l = 1;
+	pthread_mutex_unlock(philos->check_state_l);
+	philo_actions(philos, philos->id, EXTRAL);
+}
+
 static void	freexit(t_pdata *pdata, int amt)
 {
 	int	i;
@@ -20,9 +40,12 @@ static void	freexit(t_pdata *pdata, int amt)
 	while (++i < amt)
 	{
 		pthread_mutex_destroy(pdata->philo[i].fork_l);
+		pthread_mutex_destroy(pdata->philo[i].check_state_l);
 		pthread_mutex_destroy(&pdata->philo[i].fork_r);
+		pthread_mutex_destroy(&pdata->philo[i].check_state_r);
 	}
 	pthread_mutex_destroy(&pdata->print);
+	pthread_mutex_destroy(&pdata->check_death);
 	free(pdata->philo);
 }
 

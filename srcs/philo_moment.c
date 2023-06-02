@@ -15,24 +15,7 @@
 static void	take_forks(t_philos *philos, int mode)
 {
 	if (!mode)
-	{
-		while (trylock(philos, 'R'))
-			if (smartsleep(1, philos))
-				return ;
-		pthread_mutex_lock(&(philos->fork_r));
-		pthread_mutex_lock(&philos->check_state_r);
-		philos->state_r = 1;
-		pthread_mutex_unlock(&philos->check_state_r);
-		philo_actions(philos, philos->id, EXTRAR);
-		while (trylock(philos, 'L'))
-			if (smartsleep(1, philos))
-				return ;
-		pthread_mutex_lock(philos->fork_l);
-		pthread_mutex_lock(philos->check_state_l);
-		*philos->state_l = 1;
-		pthread_mutex_unlock(philos->check_state_l);
-		philo_actions(philos, philos->id, EXTRAL);
-	}
+		lock_unlock_madness(philos);
 	if (mode)
 	{
 		pthread_mutex_unlock(philos->fork_l);
