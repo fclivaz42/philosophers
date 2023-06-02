@@ -32,6 +32,9 @@ all:	${NAME}
 debug:
 		${CC} -D DEBUG=1 ${SRCS} -o ${NAME} -g3 -fsanitize=address
 
+tdbug:
+		${CC} -D DEBUG=1 ${SRCS} -o ${NAME} -g3 -fsanitize=thread
+
 extra:
 		${CC} -D EXTRAL=5 -D EXTRAR=6 ${SRCS} -o ${NAME} ${LFLAGS} 
 

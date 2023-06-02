@@ -16,25 +16,33 @@ static void	take_forks(t_philos *philos, int mode)
 {
 	if (!mode)
 	{
-		while (*philos->state_l == 1)
-			if (smartsleep(1, philos))
-				return ;
-		pthread_mutex_lock(philos->fork_l);
-		*philos->state_l = 1;
-		philo_actions(philos, philos->id, EXTRAL);
-		while (philos->state_r == 1)
+		while (trylock(philos, 'R'))
 			if (smartsleep(1, philos))
 				return ;
 		pthread_mutex_lock(&(philos->fork_r));
+		pthread_mutex_lock(&philos->check_state_r);
 		philos->state_r = 1;
+		pthread_mutex_unlock(&philos->check_state_r);
 		philo_actions(philos, philos->id, EXTRAR);
+		while (trylock(philos, 'L'))
+			if (smartsleep(1, philos))
+				return ;
+		pthread_mutex_lock(philos->fork_l);
+		pthread_mutex_lock(philos->check_state_l);
+		*philos->state_l = 1;
+		pthread_mutex_unlock(philos->check_state_l);
+		philo_actions(philos, philos->id, EXTRAL);
 	}
 	if (mode)
 	{
 		pthread_mutex_unlock(philos->fork_l);
+		pthread_mutex_lock(philos->check_state_l);
 		*philos->state_l = 0;
+		pthread_mutex_unlock(philos->check_state_l);
 		pthread_mutex_unlock(&(philos->fork_r));
+		pthread_mutex_lock(&(philos->check_state_r));
 		philos->state_r = 0;
+		pthread_mutex_unlock(&(philos->check_state_r));
 	}
 }
 
@@ -65,7 +73,7 @@ void	*philo_routine(void *p)
 	philos = (t_philos *)p;
 	if (philos->id % 2 == 0)
 		philo_sleep(philos);
-	while (++eaten != philos->pdata->times_eat && philos->pdata->has_died != 1)
+	while (++eaten != philos->pdata->times_eat && !check_death(philos, 0))
 	{
 		philo_eat(philos);
 		philo_sleep(philos);
@@ -80,6 +88,7 @@ int	philo_start(t_pdata *pdata, int amount)
 	i = -1;
 	pdata->philo = ft_calloc(amount, sizeof(t_philos));
 	pthread_mutex_init(&(pdata->print), NULL);
+	pthread_mutex_init(&(pdata->check_death), NULL);
 	if (pdata->philo == NULL)
 		return (error_number(0));
 	pthread_init(pdata, amount);

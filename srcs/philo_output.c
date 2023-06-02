@@ -58,7 +58,7 @@ int	philo_actions(t_philos *philos, int number, int mode)
 {
 	int	time;
 
-	if (philos->pdata->has_died == 0)
+	if (!check_death(philos, 0))
 	{
 		pthread_mutex_lock(&philos->pdata->print);
 		time = get_timestamp(philos->pdata, 0);
