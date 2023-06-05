@@ -42,7 +42,7 @@ static void	philo_sleep(t_philos *philos)
 {
 	philo_actions(philos, philos->id, 2);
 	smartsleep(philos->pdata->time_sleep, philos);
-	if (philos->pdata->has_died == 1)
+	if (check_death(philos, 0))
 		return ;
 	philo_actions(philos, philos->id, 3);
 }	
